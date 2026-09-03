@@ -30,6 +30,8 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Allow other devices on the local network to access the dev server (e.g. mobile preview)
+  allowedDevOrigins: ["192.168.220.52"],
   async headers() {
     return [
       {

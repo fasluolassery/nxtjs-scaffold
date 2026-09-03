@@ -10,7 +10,7 @@ export function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed right-4 bottom-4 z-50 flex max-w-sm flex-col space-y-2">
+    <div className="pointer-events-none fixed top-4 right-4 left-4 z-50 flex flex-col space-y-2 sm:right-4 sm:left-auto sm:w-full sm:max-w-sm">
       {toasts.map((t) => {
         const icons = {
           success: <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-500" />,
@@ -23,7 +23,7 @@ export function ToastContainer() {
           <div
             key={t.id}
             className={cn(
-              "animate-in slide-in-from-bottom-5 flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-[var(--card-foreground)] shadow-lg transition-all"
+              "animate-in slide-in-from-top-5 fade-in pointer-events-auto flex items-start gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-[var(--card-foreground)] shadow-lg transition-all duration-200"
             )}
           >
             {icons[t.type]}
