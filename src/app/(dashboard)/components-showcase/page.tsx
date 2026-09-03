@@ -1,7 +1,35 @@
 "use client";
 
-import { Bell, Info, Layers, MoreHorizontal, Plus, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Bell,
+  CheckCircle2,
+  FileText,
+  Info,
+  Layers,
+  Loader2,
+  MoreHorizontal,
+  Plus,
+  RotateCcw,
+  ShieldCheck,
+  Sparkles,
+  Trash2,
+  Zap,
+} from "lucide-react";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/AlertDialog/AlertDialog";
 import { Avatar } from "@/components/ui/Avatar/Avatar";
 import { Badge } from "@/components/ui/Badge/Badge";
 import { Button } from "@/components/ui/Button/Button";
@@ -32,6 +60,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu/DropdownMenu";
 import { Input } from "@/components/ui/Input/Input";
+import { Label } from "@/components/ui/Label/Label";
 import {
   Select,
   SelectContent,
@@ -42,6 +71,7 @@ import {
 import { Skeleton } from "@/components/ui/Skeleton/Skeleton";
 import { Switch } from "@/components/ui/Switch/Switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs/Tabs";
+import { Textarea } from "@/components/ui/Textarea/Textarea";
 import {
   Tooltip,
   TooltipContent,
@@ -50,6 +80,22 @@ import {
 } from "@/components/ui/Tooltip/Tooltip";
 import { EmptyState } from "@/components/feedback/EmptyState";
 import { toast } from "@/stores/useToastStore";
+
+const showcaseFormSchema = z.object({
+  fullName: z.string().min(2, "Full name must be at least 2 characters"),
+  email: z.string().email("Please provide a valid email address"),
+  role: z.string().min(1, "Please select a role"),
+  bio: z
+    .string()
+    .min(10, "Bio must be at least 10 characters")
+    .max(200, "Bio cannot exceed 200 characters"),
+  notifications: z.boolean(),
+  termsAccepted: z.boolean().refine((val) => val === true, {
+    message: "You must accept the terms of service",
+  }),
+});
+
+type ShowcaseFormData = z.infer<typeof showcaseFormSchema>;
 
 interface SampleItem {
   id: string;
@@ -68,6 +114,32 @@ export default function ComponentsShowcasePage() {
   const [isChecked, setIsChecked] = useState(true);
   const [isSwitched, setIsSwitched] = useState(true);
   const [selectedRole, setSelectedRole] = useState("admin");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors, isDirty },
+  } = useForm<ShowcaseFormData>({
+    resolver: zodResolver(showcaseFormSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      role: "developer",
+      bio: "",
+      notifications: true,
+      termsAccepted: false,
+    },
+  });
+
+  const onFormSubmit = async (data: ShowcaseFormData) => {
+    setIsSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    setIsSubmitting(false);
+    toast.success("Profile Updated", `Successfully saved details for ${data.fullName}`);
+  };
 
   const tableColumns: Column<SampleItem>[] = [
     {
@@ -275,6 +347,33 @@ export default function ComponentsShowcasePage() {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="destructive" className="gap-2">
+                  <Trash2 className="h-4 w-4" /> Confirm Destructive Action
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete the selected resource
+                    and remove all associated telemetry records.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() =>
+                      toast.error("Resource Deleted", "The item was removed permanently.")
+                    }
+                  >
+                    Confirm Deletion
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -344,6 +443,168 @@ export default function ComponentsShowcasePage() {
               />
             </TabsContent>
           </Tabs>
+        </CardContent>
+      </Card>
+
+      {/* 5. Enterprise Form Pattern (React Hook Form + Zod) */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <FileText className="h-5 w-5 text-purple-500" /> Enterprise Form Architecture
+          </CardTitle>
+          <CardDescription>
+            Type-safe form state, real-time Zod schema validation, accessible Radix labels, and
+            loading states.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              {/* Full Name Field */}
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Full Name</Label>
+                <Input
+                  id="fullName"
+                  placeholder="e.g. Cristiano Ronaldo"
+                  error={!!errors.fullName}
+                  {...register("fullName")}
+                />
+                {errors.fullName && (
+                  <p className="text-xs text-[var(--destructive)]">{errors.fullName.message}</p>
+                )}
+              </div>
+
+              {/* Email Field */}
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@academy.com"
+                  error={!!errors.email}
+                  {...register("email")}
+                />
+                {errors.email && (
+                  <p className="text-xs text-[var(--destructive)]">{errors.email.message}</p>
+                )}
+              </div>
+
+              {/* Role Select Field */}
+              <div className="space-y-2">
+                <Label htmlFor="role">Assigned Role</Label>
+                <Controller
+                  control={control}
+                  name="role"
+                  render={({ field }) => (
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger id="role">
+                        <SelectValue placeholder="Select a role" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="admin">Academy Director</SelectItem>
+                        <SelectItem value="manager">Head Coach</SelectItem>
+                        <SelectItem value="developer">Lead Analyst</SelectItem>
+                        <SelectItem value="user">Staff Member</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
+                {errors.role && (
+                  <p className="text-xs text-[var(--destructive)]">{errors.role.message}</p>
+                )}
+              </div>
+
+              {/* Notifications Switch Field */}
+              <div className="flex flex-col justify-center space-y-2 pt-2">
+                <Label htmlFor="notifications">System Notifications</Label>
+                <div className="flex items-center gap-3">
+                  <Controller
+                    control={control}
+                    name="notifications"
+                    render={({ field }) => (
+                      <Switch
+                        id="notifications"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    )}
+                  />
+                  <span className="text-xs text-[var(--muted-foreground)]">
+                    Receive training fixture and attendance alerts
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Bio Textarea Field */}
+            <div className="space-y-2">
+              <Label htmlFor="bio">Professional Bio</Label>
+              <Textarea
+                id="bio"
+                placeholder="Describe qualifications, certifications, or coaching experience..."
+                error={!!errors.bio}
+                {...register("bio")}
+              />
+              {errors.bio ? (
+                <p className="text-xs text-[var(--destructive)]">{errors.bio.message}</p>
+              ) : (
+                <p className="text-xs text-[var(--muted-foreground)]">
+                  Between 10 and 200 characters.
+                </p>
+              )}
+            </div>
+
+            {/* Terms Checkbox */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <Controller
+                  control={control}
+                  name="termsAccepted"
+                  render={({ field }) => (
+                    <Checkbox
+                      id="termsAccepted"
+                      checked={!!field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+                <Label htmlFor="termsAccepted" className="cursor-pointer font-normal">
+                  I agree to the academy compliance and data privacy regulations.
+                </Label>
+              </div>
+              {errors.termsAccepted && (
+                <p className="text-xs text-[var(--destructive)]">{errors.termsAccepted.message}</p>
+              )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3 border-t border-[var(--border)] pt-4">
+              <Button type="submit" disabled={isSubmitting} className="gap-2">
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Saving Changes...
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="h-4 w-4" />
+                    Submit Profile
+                  </>
+                )}
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                disabled={!isDirty || isSubmitting}
+                onClick={() => reset()}
+                className="gap-2"
+              >
+                <RotateCcw className="h-4 w-4" />
+                Reset Form
+              </Button>
+            </div>
+          </form>
         </CardContent>
       </Card>
     </div>

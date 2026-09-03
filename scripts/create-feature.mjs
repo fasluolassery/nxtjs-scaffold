@@ -143,4 +143,28 @@ export { ${pascalName}List } from "./components/${pascalName}List";
 `;
 fs.writeFileSync(path.join(targetDir, "index.ts"), indexContent);
 
+// 7. Dashboard Route Page under src/app/(dashboard)/<feature>/page.tsx
+const pageDir = path.resolve(__dirname, `../src/app/(dashboard)/${featureName}`);
+if (!fs.existsSync(pageDir)) {
+  fs.mkdirSync(pageDir, { recursive: true });
+  const pageContent = `import { ${pascalName}List } from "@/features/${featureName}";
+
+export default function ${pascalName}Page() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight text-[var(--foreground)]">${pascalName} Management</h1>
+        <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+          Manage and monitor academy ${featureName} records.
+        </p>
+      </div>
+      <${pascalName}List />
+    </div>
+  );
+}
+`;
+  fs.writeFileSync(path.join(pageDir, "page.tsx"), pageContent);
+  console.log(`✅ Route page created at src/app/(dashboard)/${featureName}/page.tsx`);
+}
+
 console.log(`✅ Feature '${featureName}' scaffolded successfully at src/features/${featureName}/`);

@@ -8,10 +8,10 @@ Production-ready, enterprise-grade Next.js (App Router) frontend foundation engi
 
 This repository includes a fully configured automated code quality & git hook pipeline:
 
-- **ESLint 9 & Prettier ([.prettierrc.mjs](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/.prettierrc.mjs))**: Automatic code formatting and static analysis (includes Tailwind CSS class sorting via `prettier-plugin-tailwindcss`).
-- **Commitlint ([commitlint.config.mjs](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/commitlint.config.mjs))**: Enforces **Conventional Commits** (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`, `perf:`). Commits with non-conforming messages are automatically rejected by git.
-- **Lint-Staged ([lint-staged.config.mjs](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/lint-staged.config.mjs))**: Automatically formats and lints only staged files before git commits occur.
-- **Husky Git Hooks ([.husky/](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/.husky/))**:
+- **ESLint 9 & Prettier ([.prettierrc.mjs](./.prettierrc.mjs))**: Automatic code formatting and static analysis (includes Tailwind CSS class sorting via `prettier-plugin-tailwindcss`).
+- **Commitlint ([commitlint.config.mjs](./commitlint.config.mjs))**: Enforces **Conventional Commits** (`feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`, `perf:`). Commits with non-conforming messages are automatically rejected by git.
+- **Lint-Staged ([lint-staged.config.mjs](./lint-staged.config.mjs))**: Automatically formats and lints only staged files before git commits occur.
+- **Husky Git Hooks ([.husky/](./.husky/))**:
   - `pre-commit`: Runs `lint-staged` and `npm run typecheck` automatically.
   - `commit-msg`: Runs `commitlint` on the commit message body.
 
@@ -19,10 +19,10 @@ This repository includes a fully configured automated code quality & git hook pi
 
 ## 🏛 Core Architectural Features
 
-- **External Node.js API Ready**: Centralized `HttpClient` ([src/lib/api/client.ts](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/src/lib/api/client.ts)) configured for cross-origin cookie authentication (`credentials: "include"`), automatic JWT bearer authorization, and error extraction supporting standard Node.js Express/NestJS DTO formats (`{ message: string | string[], error?: string }`).
-- **Development API Proxy Rewrites ([next.config.ts](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/next.config.ts))**: Automatically proxies requests to `/api/v1/*` to your Node.js backend server (`API_BASE_URL=http://localhost:4000`), eliminating CORS issues during local development.
-- **Distributed Tracing**: Automatic `x-correlation-id` header injection in [src/proxy.ts](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/src/proxy.ts) for end-to-end tracing between Next.js and your Node.js API services.
-- **Fail-Fast Environment Engine ([src/env.ts](file:///home/fasluolassery/Ainorax/Projects/August%2026/n2%20football/frontend/src/env.ts))**: Validates `API_BASE_URL` and public variables at boot/build time using `@t3-oss/env-nextjs`.
+- **External Node.js API Ready**: Centralized `HttpClient` ([src/lib/api/client.ts](./src/lib/api/client.ts)) configured for cross-origin cookie authentication (`credentials: "include"`), automatic JWT bearer authorization, and error extraction supporting standard Node.js Express/NestJS DTO formats (`{ message: string | string[], error?: string }`).
+- **Development API Proxy Rewrites ([next.config.ts](./next.config.ts))**: Automatically proxies requests to `/api/v1/*` to your Node.js backend server (`API_BASE_URL=http://localhost:4000`), eliminating CORS issues during local development.
+- **Distributed Tracing**: Automatic `x-correlation-id` header injection in [src/proxy.ts](./src/proxy.ts) for end-to-end tracing between Next.js and your Node.js API services.
+- **Fail-Fast Environment Engine ([src/env.ts](./src/env.ts))**: Validates `API_BASE_URL` and public variables at boot/build time using `@t3-oss/env-nextjs`.
 - **Feature-Driven Architecture**: Modular domain boundaries (`src/features/<feature>/`) with strict Public API Export boundaries (`index.ts`).
 - **WCAG 2.2 AA Design System**: Accessible Radix UI primitives, Tailwind CSS v4, and modern CSS Variables design tokens.
 
