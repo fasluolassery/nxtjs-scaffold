@@ -10,7 +10,7 @@ interface ConstructMetadataParams {
 
 export function constructMetadata({
   title,
-  description = "Enterprise-Grade Production Next.js App Router Scaffold",
+  description = "Production-Ready Next.js App Router Scaffold",
   image = "/og-image.png",
   noIndex = false,
 }: ConstructMetadataParams = {}): Metadata {

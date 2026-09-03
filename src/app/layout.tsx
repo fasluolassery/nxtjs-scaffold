@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     default: env.NEXT_PUBLIC_APP_NAME,
     template: `%s | ${env.NEXT_PUBLIC_APP_NAME}`,
   },
-  description: "Enterprise-Grade Production Next.js App Router Scaffold",
+  description: "Production-Ready Next.js App Router Scaffold",
   robots: { index: true, follow: true },
 };
 

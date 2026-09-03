@@ -1,6 +1,6 @@
-# Enterprise Next.js App Router Frontend Scaffold
+# Next.js App Router Frontend Scaffold
 
-Production-ready, enterprise-grade Next.js (App Router) frontend foundation engineered for strict type safety, accessibility, automated git code quality gates, and seamless integration with **Node.js REST/GraphQL API backends** (Express, NestJS, Fastify, Hono).
+Production-ready Next.js (App Router) frontend foundation engineered for strict type safety, accessibility, automated git code quality gates, and seamless integration with **Node.js REST/GraphQL API backends** (Express, NestJS, Fastify, Hono).
 
 ---
 

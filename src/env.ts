@@ -5,10 +5,10 @@ export const env = createEnv({
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
     API_BASE_URL: z.string().url().default("https://api.example.com"),
-    API_SECRET_KEY: z.string().min(1).default("super_secret_enterprise_key_change_in_prod"),
+    API_SECRET_KEY: z.string().min(1).default("super_secret_key_change_in_prod"),
   },
   client: {
-    NEXT_PUBLIC_APP_NAME: z.string().min(1).default("Enterprise Scaffold"),
+    NEXT_PUBLIC_APP_NAME: z.string().min(1).default("N2 Scaffold"),
     NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
     NEXT_PUBLIC_ENABLE_ANALYTICS: z
       .string()

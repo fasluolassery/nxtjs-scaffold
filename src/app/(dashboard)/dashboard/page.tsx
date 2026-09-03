@@ -15,7 +15,7 @@ export default function DashboardPage() {
     <div className="space-y-8 pb-12">
       <div>
         <div className="flex items-center gap-2">
-          <Badge variant="success">Enterprise Ready</Badge>
+          <Badge variant="success">Production Ready</Badge>
           <Badge variant="outline">Next.js 16 App Router</Badge>
         </div>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-[var(--foreground)]">

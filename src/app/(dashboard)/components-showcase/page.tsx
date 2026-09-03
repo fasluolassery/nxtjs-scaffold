@@ -193,7 +193,7 @@ export default function ComponentsShowcasePage() {
     <div className="space-y-10 pb-12">
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-[var(--foreground)]">
-          Enterprise Component Catalog
+          Component Catalog
         </h1>
         <p className="mt-1 text-sm text-[var(--muted-foreground)]">
           Live interactive showcase of all polished atomic primitives, feedback systems, and layout
@@ -446,11 +446,12 @@ export default function ComponentsShowcasePage() {
         </CardContent>
       </Card>
 
-      {/* 5. Enterprise Form Pattern (React Hook Form + Zod) */}
+      {/* 5. Form Pattern (React Hook Form + Zod) */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <FileText className="h-5 w-5 text-purple-500" /> Enterprise Form Architecture
+            <FileText className="h-5 w-5 text-purple-500" />
+            Form Architecture
           </CardTitle>
           <CardDescription>
             Type-safe form state, real-time Zod schema validation, accessible Radix labels, and

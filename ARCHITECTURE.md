@@ -1,4 +1,4 @@
-# Enterprise Architecture & Decision Records
+# Architecture & Decision Records
 
 This document records the architectural standards, design patterns, and boundaries enforced in this repository.
 

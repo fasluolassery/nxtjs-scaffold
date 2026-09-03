@@ -1,5 +1,5 @@
 /**
- * Standardized Enterprise API Response Envelope
+ * Standardized API Response Envelope
  */
 export interface ApiResponse<T> {
   success: boolean;
