@@ -1,0 +1,17 @@
+# Build outputs & caches
+.next
+dist
+build
+coverage
+.cache
+
+# Package & Lock files
+node_modules
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Next.js build types
+.next/types
+next-env.d.ts
+tsconfig.tsbuildinfo

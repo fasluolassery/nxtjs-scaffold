@@ -1,0 +1,28 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-feature-settings:
+      "rlh" 1,
+      "cv02",
+      "cv03",
+      "cv04",
+      "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Accessibility Focus Rings */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
